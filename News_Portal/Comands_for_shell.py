@@ -6,8 +6,6 @@ django.setup()
 from django.contrib.auth.models import User
 from News.models import Author, Category, Post, PostCategory, Comment
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "News_Portal.settings")
-django.setup()
 
 
 def comands():
@@ -25,7 +23,7 @@ def comands():
     cat_cinema = Category.objects.create(name="Кино")
     cat_IT = Category.objects.create(name="IT")
 
-    text_article_sport_cinema = ("8 июля журнал «Искусство кино» при поддержке киноконцерна «Мосфильм» выпускает в "
+    story_cinema = ("8 июля журнал «Искусство кино» при поддержке киноконцерна «Мосфильм» выпускает в "
                                  "повторный прокат комедию «Берегись автомобиля» Эльдара Рязанова в версии, которая "
                                  "прошла цифровую реставрацию.\n""\n"
                                  "В поддержку проката в этом же месяце выйдет книга «Берегись автомобиля. "
@@ -38,14 +36,14 @@ def comands():
                                  "запустить «Берегись автомобиля» в производство, и почему фильм про автоугонщика нашел"
                                  " такую мощную поддержку у советского зрителя.")
 
-    text_article_music = (
+    story_music = (
         "С миром звуков связано почти все, что происходит в природе. Во всяком случае, в живой природе. Можно считать "
         "доказанным, что музыка влияет и на нас с вами, и на растения, и на животных.\n""\n"
         "Музыка все чаще служит здоровью. Появилась уже особая, пусть и не очень обширная пока, область медицины — "
         "музыкотерапия. В первую очередь ею лечат нервнопсихические болезни: сеансы музыкотерапии под руководством "
         "врачей психотерапевтов прочно вошли в медицинскую практику.")
 
-    text_news_IT = (
+    news_IT = (
         "Django — это программный каркас с богатыми возможностями, подходящий для разработки сложных сайтов и "
         "веб-приложений, написанный на языке программирования Python.\n""\n"
         "Django — фреймворк для веб-приложений на языке Python. Один из основных принципов фреймворка — DRY "
@@ -57,13 +55,13 @@ def comands():
 
     story_pavel = Post.objects.create(author_post=Pavel, type=Post.story,
                                       header="Как смотреть «Берегись автомобиля» Рязанова",
-                                      text=text_article_sport_cinema)
+                                      text=story_cinema)
     story_oleg = Post.objects.create(author_post=Oleg, type=Post.story,
                                      header="Почему музыка лечит?",
-                                     text=text_article_music)
+                                     text=story_music)
     news_oleg = Post.objects.create(author_post=Oleg, type=Post.news,
                                     header="Django — фреймворк для веб-разработки на Python",
-                                    text=text_news_IT)
+                                    text=news_IT)
 
     PostCategory.objects.create(post=story_pavel, category=cat_sport)
     PostCategory.objects.create(post=story_pavel, category=cat_cinema)
@@ -93,15 +91,9 @@ def comands():
     comment4.like
     comment4.like
 
-    rating_johny = (sum([post.rating_post * 3 for post in Post.objects.filter(author_post=Pavel)])
-                    + sum([comment.rating_comment for comment in Comment.objects.filter(author_comment=Pavel)])
-                    + sum([comment.rating_comment for comment in Comment.objects.filter(post__author_post=Pavel)]))
-    Pavel.update_rating(rating_johny)
 
-    rating_tommy = (sum([post.rating_post * 3 for post in Post.objects.filter(author_post=Oleg)])
-                    + sum([comment.rating_comment for comment in Comment.objects.filter(author_comment=Oleg)])
-                    + sum([comment.rating_comment for comment in Comment.objects.filter(post__author_post=Oleg)]))
-    Oleg.update_rating(rating_tommy)
+    Pavel.update_rating
+    Oleg.update_rating
 
     best_author = Author.objects.all().order_by('-rating')[0]
 

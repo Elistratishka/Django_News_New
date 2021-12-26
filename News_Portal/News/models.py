@@ -6,7 +6,11 @@ class Author(models.Model):
     author_name = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     rating = models.IntegerField(default=0)
 
-    def update_rating(self, new_rating):
+    @property
+    def update_rating(self):
+        new_rating = (sum([post.rating_post * 3 for post in Post.objects.filter(author_post=self.author_name_id)])
+                    + sum([comment.rating_comment for comment in Comment.objects.filter(author_comment=self.author_name_id)])
+                    + sum([comment.rating_comment for comment in Comment.objects.filter(post__author_post=self.author_name_id)]))
         self.rating = new_rating
         self.save()
 
