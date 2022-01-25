@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+{{ post.header|truncatewords:2 }}
+{% endblock title %}
+
+{% block content %}
+<h2>{{ post.time|date:'D d.m.y H:i:s'}}</h2>
+<h1>{{ post.header }}</h1>
+<hr>
+<h4>{{ post.text|censor }}</h4>
+{% endblock content %}
+<hr>

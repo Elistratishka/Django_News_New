@@ -1,0 +1,49 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+    <h1>Новости недели</h1>
+    <h2>Количество новостей {{ posts|length }}</h2>
+    <hr>
+    {% if posts %}
+        <table>
+            <tr>
+                <td>
+                    Заголовок
+                </td>
+                <td>
+                    Дата публикации
+                </td>
+                <td>
+                    Текст
+                </td>
+                <td>
+                    Ссылка на полную новость
+                </td>
+            </tr>
+        {% for post in posts|dictsortreversed:"time" %}
+            <tr>
+                <td>
+                    {{ post.header }}
+                </td>
+                <td>
+                    {{ post.time|date:'d.m.y' }}
+                </td>
+                <td>
+                    {{ post.text|truncatewords:20|censor }}
+                </td>
+                <td>
+                    <a href={{post.pk}}>link </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2>Новостей нет</h2>
+    {% endif %}
+{% endblock content %}
