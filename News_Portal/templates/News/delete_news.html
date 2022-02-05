@@ -1,0 +1,76 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}  {% endblock title %}
+
+{% block content %}
+{% load custom_filters %}
+<h2>Вы действительно хотите удалить эту новость?</h2>
+<table>
+    <thead>
+        <th>
+            Name
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Quantity
+        </th>
+    </thead>
+    <tr>
+        <td>
+            {{ product.name|title }}
+        </td>
+        <td>
+            {{ product.category.name|title }}
+        </td>
+        <td>
+            {{ product.price }}
+        </td>
+        <td>
+            {{ product.quantity }}
+        </td>
+    </tr>
+</table>
+
+        <table>
+            <thead>
+            <tr>
+                <td>
+                    Заголовок
+                </td>
+                <td>
+                    Дата публикации
+                </td>
+                <td>
+                    Текст
+                </td>
+                <td>
+                    Ссылка на полную новость
+                </td>
+            </thead>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ post.header }}
+                </td>
+                <td>
+                    {{ post.time|date:'d.m.y' }}
+                </td>
+                <td>
+                    {{ post.text|truncatewords:20|censor }}
+                </td>
+                <td>
+                    <a href='{% url "detail" post.id %}'> detail </a>
+                </td>
+            </tr>
+        </table>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить"></form>
+{% endblock content %}

@@ -7,8 +7,10 @@ News
 {% endblock title %}
 
 {% block content %}
-    <h1>Новости недели</h1>
-    <h2>Количество новостей {{ posts|length }}</h2>
+<form method="GET">
+    {{ filter.form }} <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы придётся делать самому -->
+    <input type="submit" value="Найти">
+</form>
     <hr>
     {% if posts %}
         <table>
@@ -26,7 +28,7 @@ News
                     Ссылка на полную новость
                 </td>
             </tr>
-        {% for post in posts|dictsortreversed:"time" %}
+        {% for post in filter.qs %}
             <tr>
                 <td>
                     {{ post.header }}
@@ -38,7 +40,7 @@ News
                     {{ post.text|truncatewords:20|censor }}
                 </td>
                 <td>
-                    <a href={{post.pk}}>link </a>
+                    <a href='{% url "detail" post.id %}'>link </a>
                 </td>
             </tr>
         {% endfor %}
@@ -46,4 +48,8 @@ News
     {% else %}
         <h2>Новостей нет</h2>
     {% endif %}
+
+
+
+
 {% endblock content %}

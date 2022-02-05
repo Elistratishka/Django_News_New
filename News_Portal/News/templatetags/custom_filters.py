@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter(name='censor')
 def censor(value):
     bad_words = ['kaka', 'saka', 'nigga']

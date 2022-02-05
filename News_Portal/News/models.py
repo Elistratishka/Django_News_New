@@ -6,6 +6,9 @@ class Author(models.Model):
     author_name = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     rating = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.author_name.username
+
     @property
     def update_rating(self):
         new_rating = (sum([post.rating_post * 3 for post in Post.objects.filter(author_post=self.author_name_id)])
@@ -18,6 +21,8 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
+    def __str__(self):
+        return self.name
 
 # noinspection PyTypeChecker
 class Post(models.Model):
