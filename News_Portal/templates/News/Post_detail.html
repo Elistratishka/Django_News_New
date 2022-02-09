@@ -12,7 +12,7 @@
 <hr>
 <h5>{{ post.text|censor }}</h5>
 <hr>
-
+<h5>Категории: {% for cat in post.category.all %} {{ cat.name }} {% endfor %} </h5>
 <h5>Рейтинг: {{ post.rating_post }}</h5>
 <h5>Автор: {{ post.author_post }} (рейтинг автора: {{ post.author_post.rating }})</h5>
 <hr>
