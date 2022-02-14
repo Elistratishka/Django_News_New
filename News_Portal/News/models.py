@@ -12,9 +12,9 @@ class Author(models.Model):
 
     @property
     def update_rating(self):
-        new_rating = (sum([post.rating_post * 3 for post in Post.objects.filter(author_post=self.author_name_id)])
-                    + sum([comment.rating_comment for comment in Comment.objects.filter(author_comment=self.author_name_id)])
-                    + sum([comment.rating_comment for comment in Comment.objects.filter(post__author_post=self.author_name_id)]))
+        new_rating = (sum([post.rating_post * 3 for post in Post.objects.filter(author_post=self.author_name)])
+            + sum([comment.rating_comment for comment in Comment.objects.filter(author_comment=self.author_name)])
+            + sum([comment.rating_comment for comment in Comment.objects.filter(post__author_post=self.author_name)]))
         self.rating = new_rating
         self.save()
 
@@ -24,6 +24,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # noinspection PyTypeChecker
 class Post(models.Model):
@@ -43,6 +44,8 @@ class Post(models.Model):
     author_post = models.ForeignKey(Author, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category, through='PostCategory')
 
+
+
     @property
     def preview(self):
         size = 124 if len(self.text) > 124 else len(self.text)
@@ -59,7 +62,7 @@ class Post(models.Model):
         self.save()
 
     def get_absolute_url(self):
-        return f'/posts/{self.id}'
+        return f'/posts/{self.pk}'
 
 
 class PostCategory(models.Model):

@@ -24,14 +24,17 @@
        </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href='{% url "list" %}'>Home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
+                        {% if is_author %}
                         <li class="nav-item">
                             <a class="nav-link" href='{% url "add" %}'>Предложите новость</a>
                         </li>
+                        {% endif %}
+                        <li class="nav-item">
+                        {% if is_not_author %}
+                        <li class="nav-item">
+                            <a class="nav-link" href='{% url "upgrade" %}'>Хочу стать автором</a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
