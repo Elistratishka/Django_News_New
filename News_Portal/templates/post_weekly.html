@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            Заголовок
+        </td>
+        <td>
+            Дата публикации
+        </td>
+        <td>
+            Текст
+        </td>
+        <td>
+            Ссылка на полную новость
+        </td>
+    </tr>
+{% for post in posts|dictsortreversed:"time" %}
+    <tr>
+        <td>
+            {{ post.header }}
+        </td>
+        <td>
+            {{ post.time|date:'d.m.y' }}
+        </td>
+        <td>
+            {{ post.text|truncatewords:20 }}
+        </td>
+        <td>
+            <a href='{% url "detail" post.id %}'> detail </a>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>
