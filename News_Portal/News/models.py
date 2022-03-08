@@ -21,6 +21,10 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    subscribers = models.ManyToManyField(
+                                        User,
+                                        through='Subscribe', related_name='subs'
+                                        )
 
     def __str__(self):
         return self.name
@@ -43,7 +47,6 @@ class Post(models.Model):
     rating_post = models.IntegerField(default=0)
     author_post = models.ForeignKey(Author, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category, through='PostCategory')
-
 
 
     @property
@@ -86,3 +89,11 @@ class Comment(models.Model):
     def dislike(self):
         self.rating_comment -= 1
         self.save()
+
+
+class Subscribe(models.Model):
+    User = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sub')
+    Category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.User.username}: {self.Category.name}'

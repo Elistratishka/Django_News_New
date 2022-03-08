@@ -6,6 +6,7 @@ from django.forms.widgets import SelectDateWidget
 class PostFilter(FilterSet):
     header_filter = CharFilter(field_name='header', lookup_expr='icontains', label='Название')
     author_filter = CharFilter(field_name='author_post__author_name__username', lookup_expr='icontains', label='Автор')
+    category_filter = CharFilter(field_name='category__name', lookup_expr='icontains', label='Категория')
     time_filter = DateFilter(field_name='time', lookup_expr='gt', label='Позднее даты', widget=SelectDateWidget)
 
     class Meta:

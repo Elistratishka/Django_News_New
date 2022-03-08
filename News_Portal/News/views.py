@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
-from .models import Post
+from .models import Post, Author
 from .filters import PostFilter
 from .forms import PostForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -50,6 +50,7 @@ class PostSearch(ListView):
 
 
 class PostAdd(PermissionRequiredMixin, CreateView):
+    model = Post
     permission_required = ('News.add_post',)
     template_name = 'News/Add_news.html'
     form_class = PostForm
@@ -61,8 +62,8 @@ class PostEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
     form_class = PostForm
 
     def get_object(self, **kwargs):
-        id = self.kwargs.get('pk')
-        return Post.objects.get(pk=id)
+        pk = self.kwargs.get('pk')
+        return Post.objects.get(pk=pk)
 
 
 class PostDelete(PermissionRequiredMixin, DeleteView):
@@ -78,4 +79,17 @@ def upgrade_me(request):
     premium_group = Group.objects.get(name='authors')
     if not request.user.groups.filter(name='authors').exists():
         premium_group.user_set.add(user)
-    return redirect('/')
+        Author(author_name=user).save()
+    return redirect('/posts')
+
+
+@login_required
+def subscribe_me(request):
+    q = request.GET.get('q')
+    user = request.user
+    for i in q:
+        try:
+            user.subs.add(i)
+        except:
+            continue
+    return redirect('/posts')

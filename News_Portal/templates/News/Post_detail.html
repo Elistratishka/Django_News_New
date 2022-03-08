@@ -18,5 +18,10 @@
 <hr>
 <h5><a href='{% url "edit" post.id %}'> Редактировать </a></h5>
 <h5><a href='{% url "delete" post.id %}'> Удалить </a></h5>
+ {% if user.is_authenticated %}
+    <a href='{% url "subscribe" %}?q={% for cat in post.category.all %} {{ cat.id }} {% endfor %}'>subscribe category </a>
+    {% else %}
+    тут предложение войти
+    {% endif %}
 {% endblock content %}
 

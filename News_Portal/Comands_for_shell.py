@@ -11,6 +11,7 @@ from News.models import Author, Category, Post, PostCategory, Comment
 def comands():
     User.objects.all().delete()
     Category.objects.all().delete()
+    Post.objects.all().delete()
 
     user_1 = User.objects.create_user(username='Pavel', email='Pavel@outlook.com', password='Qwerty123')
     user_2 = User.objects.create_user(username='Olegg', email='Olegg@yandex.ru', password='Qwerty123')
