@@ -4,8 +4,10 @@ from django.views.decorators.cache import cache_page
 
 
 urlpatterns = [
-    path('', cache_page(60*2)(PostList.as_view()), name='list'),
-    path('<int:pk>/',  cache_page(60*10)(PostView.as_view()), name='detail'),
+    # path('', cache_page(60*2)(PostList.as_view()), name='list'),                  для кэширования страниц полностью
+    # path('<int:pk>/',  cache_page(60*10)(PostView.as_view()), name='detail'),     (без привязки к объектам )
+    path('', PostList.as_view(), name='list'),
+    path('<int:pk>/', PostView.as_view(), name='detail'),
     path('<int:pk>/edit/', PostEdit.as_view(), name='edit'),
     path('<int:pk>/delete/', PostDelete.as_view(), name='delete'),
     path('search/', PostSearch.as_view(), name='search'),

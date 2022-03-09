@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.cache import cache
 from django.urls import reverse
 
 
@@ -48,7 +49,6 @@ class Post(models.Model):
     author_post = models.ForeignKey(Author, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category, through='PostCategory')
 
-
     @property
     def preview(self):
         size = 124 if len(self.text) > 124 else len(self.text)
@@ -66,6 +66,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return f'/posts/{self.pk}'
+
+    def save(self, *args, **kwargs):        # для кэширования на низком уровне
+        super().save(*args, **kwargs)
+        cache.delete(f'post-{self.pk}')
 
 
 class PostCategory(models.Model):
